@@ -1,0 +1,54 @@
+<div class='row'>
+  <div class='col-md-4 offset-md-4 text-center'>
+    <h3>Products List</h3>
+  </div>
+</div>
+
+<div class='row'>
+  <div class="col-sm-4 offset-sm-4 text-right">
+    <button (click)="productAction('new')" class="btn btn-primary">Add New Product</button>
+  </div>
+</div>
+<br/>
+<div class='row' *ngIf="errors">
+  <div class='col-md-8 offset-md-3'>
+    <h5 style="color: red;">Errors: {{ errors }}</h5>
+  </div>
+</div>
+
+<div class='row' *ngIf="products.length == 0">
+  <div class='col-md-8 offset-md-3'>
+    <h6 style="color: red;">There is no data to display</h6>
+  </div>
+</div>
+
+<div class='row' *ngIf="products.length > 0">
+  <div class='col-md-4 offset-md-4'>
+    <table class="table table-striped">
+      <thead>
+        <tr style="cursor: pointer;">
+          <th (click)="sortBy('id')" scope="col">id</th>
+          <th (click)="sortBy('name')" scope="col">Name</th>
+          <th scope="col">Description</th>
+          <th (click)="sortBy('price')" scope="col">Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products" (click)="productAction(product.id)" style="cursor: pointer;">
+          <th scope="row">{{ product.id }}</th>
+          <td>{{ product.name }}</td>
+          <td>{{ product.description }}</td>
+          <td>${{ product.price }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class='row'>
+  <div class= 'col-sm-4 offset-sm-4 text-right'>
+    <p>Page {{page}}</p>
+    <button (click)="pagination()" type="button" class="btn btn-outline-info btn-sm">Previous</button>
+    <button (click)="pagination('next')" type="button" class="offset-sm-1 btn btn-outline-info btn-sm">Next</button>
+  </div>
+</div>

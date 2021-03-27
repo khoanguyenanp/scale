@@ -23,3 +23,5 @@ DB_PASSWORD=scale
 - `cd scale-code-chalenge-frontend
 - Run `npm install`
 - Run `ng serve` to start
+
+- Visit http://127.0.0.1:4200
