@@ -12,6 +12,7 @@ class ProductsController extends Controller
 {
     public function index(Request $request)
     {
+        // Get request params
         $limit = $request->input('limit') ?: 100;
         $sort = $request->input('sort') ?: 'id';
         $page = $request->input('page') ?: 0;
@@ -23,6 +24,7 @@ class ProductsController extends Controller
             $sort_by = $sort ?: 'id';
             $sort_dir = 'ASC';
         }
+        // Query
         $products = Products::orderBy($sort_by, $sort_dir)->skip($page*$limit)->take($limit)->get();
         return new ProductsCollection($products);
     }
@@ -34,12 +36,14 @@ class ProductsController extends Controller
 
     public function store(Request $request)
     {
+        // Validate incoming data
         $request->validate(array(
             'name'             => 'required|max:255',
             'description'      => 'required',
             'price'            => 'required|regex:/^\d*(\.\d{2})?$/'
         ));
 
+        // Create
         $product = Products::create($request->all());
 
         return (new ProductsResource($product))
@@ -49,6 +53,7 @@ class ProductsController extends Controller
 
     public function update($id, Request $request)
     {
+        // Validate incoming data
         $request->validate(array(
             'name'             => 'required|max:255',
             'description'      => 'required',

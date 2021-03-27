@@ -21,26 +21,20 @@ export class ProductsComponent implements OnInit {
     ) {}
 
   ngOnInit() {
+    // Grab id to determine new products vs view existing product
     this.id = this.route.snapshot.params.id;
+    // Init form
     this.formdata = new FormGroup({
       name: new FormControl(),
       description: new FormControl(),
       price: new FormControl()
     });
+    // Set title and grab data from api if needed
     if (this.id === 'new') {
-      this.initNewProduct();
+      this.title = 'Add New Product';
     } else {
       this.initViewProduct();
     }
-  }
-
-  initNewProduct() {
-    this.title = 'Add New Product';
-    this.formdata = new FormGroup({
-      name: new FormControl(),
-      description: new FormControl(),
-      price: new FormControl()
-    });
   }
 
   initViewProduct() {
@@ -62,7 +56,7 @@ export class ProductsComponent implements OnInit {
 
   create(data) {
     this.productsService.postProduct(data).subscribe(() => {
-      this.router.navigate(['']);
+      this.goBackToList();
     }, err => {
       this.errors = err.error.message;
     });
@@ -70,22 +64,26 @@ export class ProductsComponent implements OnInit {
 
   update(data) {
     this.productsService.updateProduct(this.id, data).subscribe(() => {
-      this.router.navigate(['']);
+      this.goBackToList();
     }, err => {
       this.errors = err.error.message;
     });
   }
 
   cancel() {
-    this.router.navigate(['']);
+    this.goBackToList();
   }
 
   delete() {
     this.productsService.deleteProduct(this.id).subscribe(() => {
-      this.router.navigate(['']);
+      this.goBackToList();
     }, err => {
       this.errors = err.error.message;
     });
+  }
+
+  goBackToList() {
+    this.router.navigate(['']);
   }
 
 }
